@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import InputMask from 'react-input-mask';
 import * as S from './Style';
 
 const Modal = ({ isOpen, onClose, onSave, contact }) => {
@@ -16,8 +17,37 @@ const Modal = ({ isOpen, onClose, onSave, contact }) => {
 
   if (!isOpen) return null;
 
-  const handleSave = () => {
-    onSave({ name, email, phone });
+  const handleSave = (e) => {
+    e.preventDefault();
+
+    // Validação do nome completo (mínimo de duas palavras)
+    if (!/^\s*([A-Za-z]{2,}\s)+[A-Za-z]{2,}\s*$/.test(name)) {
+      alert('Por favor, insira o nome completo.');
+      return;
+    }
+
+    // Validação de e-mail
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailPattern.test(email)) {
+      alert('Por favor, insira um endereço de e-mail válido.');
+      return;
+    }
+
+    // Validação do telefone
+    if (phone.replace(/[\s()-]/g, '').length < 10) {
+      alert('Por favor, insira um número de telefone válido.');
+      return;
+    }
+
+    // Preparar o objeto de contato atualizado com o ID existente
+    const updatedContact = {
+      id: contact.id,
+      name: name.trim(),
+      email: email.trim(),
+      phone: phone.trim(),
+    };
+
+    onSave(updatedContact);
     onClose();
   };
 
@@ -25,27 +55,31 @@ const Modal = ({ isOpen, onClose, onSave, contact }) => {
     <S.ModalOverlay>
       <S.ModalContent>
         <S.CloseButton onClick={onClose}>×</S.CloseButton>
-        <h2>Edit Contact</h2>
-        <S.Form>
-          <S.Input 
+        <h2>Editar Contato</h2>
+        <S.Form onSubmit={handleSave}>
+          <S.Input
             type="text"
-            placeholder="Full Name"
+            placeholder="Nome Completo"
             value={name}
             onChange={(e) => setName(e.target.value)}
+            required
           />
-          <S.Input 
+          <S.Input
             type="email"
-            placeholder="Email"
+            placeholder="E-mail"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            required
           />
-          <S.Input 
-            type="tel"
-            placeholder="Phone"
+          <InputMask
+            mask="(99) 99999-9999"
             value={phone}
             onChange={(e) => setPhone(e.target.value)}
-          />
-          <S.Button onClick={handleSave}>Save</S.Button>
+            required
+          >
+            {(inputProps) => <S.Input {...inputProps} type="tel" placeholder="Telefone" />}
+          </InputMask>
+          <S.Button type="submit">Salvar</S.Button>
         </S.Form>
       </S.ModalContent>
     </S.ModalOverlay>

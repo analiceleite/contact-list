@@ -26,16 +26,14 @@ export const Logo = styled.h1`
 
 export const MainContent = styled.div`
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   margin-top: 60px;
   height: calc(100vh - 80px); 
 `;
 
 export const FormContainer = styled.div`
-  flex: 0 1 auto;
+  flex: 0 1  40%;
   padding: 20px;
-  padding-bottom: 50px;
-  border-bottom: 1px solid #ddd;
 `;
 
 export const ListContainer = styled.div`
