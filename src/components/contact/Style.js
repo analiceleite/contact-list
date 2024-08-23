@@ -44,6 +44,28 @@ export const Button = styled.button`
   }
 `;
 
+export const DeleteButton = styled.button`
+  background-color: #e63946;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 8px 12px;
+  margin-left: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.3s;
+
+  &:hover {
+    background-color: #d62839;
+    transform: scale(1.05);
+  }
+
+  &:active {
+    background-color: #b71c29;
+    transform: scale(1);
+  }
+`;
+
+
 export const FilterInput = styled.input`
   width: 100%;
   padding: 12px;
@@ -59,3 +81,8 @@ export const FilterInput = styled.input`
     outline: none;
   }
 `;
+
+export const NotFound = styled.p`
+ font-weight: bold;
+ color: red;
+`

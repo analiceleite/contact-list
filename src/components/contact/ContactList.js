@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { removeContact, editContact } from '../../redux/contactsSlice';
 import Modal from '../modal/Modal';
-import * as S from './Style'; 
+import * as S from './Style';
 
 const ContactList = () => {
   const [filter, setFilter] = useState('');
@@ -40,21 +40,25 @@ const ContactList = () => {
         value={filter}
         onChange={(e) => setFilter(e.target.value)}
       />
-      <S.List>
-        {filteredContacts.map((contact) => (
-          <S.ListItem key={contact.id}>
-            <div>
-              {contact.name} - {contact.email} - {contact.phone}
-            </div>
-            <div>
-              <S.Button onClick={() => handleEditClick(contact)}>Edit</S.Button>
-              <S.Button onClick={() => dispatch(removeContact(contact.id))}>
-                Remove
-              </S.Button>
-            </div>
-          </S.ListItem>
-        ))}
-      </S.List>
+      {filteredContacts.length === 0 ? (
+        <S.NotFound>No contacts found.</S.NotFound>
+      ) : (
+        <S.List>
+          {filteredContacts.map((contact) => (
+            <S.ListItem key={contact.id}>
+              <div>
+                {contact.name} - {contact.email} - {contact.phone}
+              </div>
+              <div>
+                <S.Button onClick={() => handleEditClick(contact)}>Edit</S.Button>
+                <S.DeleteButton onClick={() => dispatch(removeContact(contact.id))}>
+                  Remove
+                </S.DeleteButton>
+              </div>
+            </S.ListItem>
+          ))}
+        </S.List>
+      )}
       {selectedContact && (
         <Modal 
           isOpen={isModalOpen} 
