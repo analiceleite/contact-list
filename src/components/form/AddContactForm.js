@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { addContact } from '../../redux/contactsSlice';
-import * as S from './Style'; // Certifique-se de que os estilos estão atualizados
+import * as S from './Style'; 
 
 const AddContactForm = () => {
     const [name, setName] = useState('');
@@ -11,8 +11,8 @@ const AddContactForm = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        // Gerar um ID único. Dependendo da sua estratégia, você pode usar um pacote específico ou uma função diferente.
-        const id = Date.now(); // Alternativa: use uma biblioteca como uuid
+        // Gerar um ID único
+        const id = Date.now(); 
         dispatch(addContact({ id, name, email, phone }));
         // Limpar os campos do formulário
         setName('');
